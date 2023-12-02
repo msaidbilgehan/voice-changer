@@ -1,11 +1,11 @@
 import os
-import random
 import re
 import numpy as np
 import librosa
 import torch
 from tqdm import tqdm
 from torch.utils.data import Dataset
+import secrets
 
 
 def traverse_dir(root_dir, extensions, amount=None, str_include=None, str_exclude=None, is_pure=False, is_sort=False, is_ext=True):
@@ -149,10 +149,10 @@ class AudioDataset(Dataset):
         waveform_sec = duration if self.whole_audio else self.waveform_sec
 
         # load audio
-        idx_from = 0 if self.whole_audio else random.uniform(0, duration - waveform_sec - 0.1)
+        idx_from = 0 if self.whole_audio else secrets.SystemRandom().uniform(0, duration - waveform_sec - 0.1)
         start_frame = int(idx_from / frame_resolution)
         units_frame_len = int(waveform_sec / frame_resolution)
-        aug_flag = random.choice([True, False]) and self.use_aug
+        aug_flag = secrets.SystemRandom().choice([True, False]) and self.use_aug
 
         # load mel
         mel_key = "aug_mel" if aug_flag else "mel"

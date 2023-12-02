@@ -1,6 +1,5 @@
 import copy
 from typing import Optional, Tuple
-import random
 
 from sklearn.cluster import KMeans
 
@@ -8,6 +7,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.modules.utils import consume_prefix_in_state_dict_if_present
+import secrets
 
 URLS = {
     "hubert-discrete": "https://github.com/bshall/hubert/releases/download/v0.1/hubert-discrete-e9416457.pt",
@@ -191,7 +191,7 @@ def _compute_mask(
         )
 
     # compute number of masked spans in batch
-    num_masked_spans = int(mask_prob * sequence_length / mask_length + random.random())
+    num_masked_spans = int(mask_prob * sequence_length / mask_length + secrets.SystemRandom().random())
     num_masked_spans = max(num_masked_spans, min_masks)
 
     # make sure num masked indices <= sequence_length
