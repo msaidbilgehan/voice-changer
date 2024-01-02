@@ -21,7 +21,7 @@ class MMVCv15ModelSlotGenerator(ModelSlotGenerator):
                 with open(filePath, "r") as f:
                     slotInfo.speakers = {}
                     while True:
-                        line = f.readline()
+                        line = f.readline(5_000_000)
                         if not line:
                             break
                         vals = line.strip().split("|")
